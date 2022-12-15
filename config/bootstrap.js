@@ -9,7 +9,7 @@
  * https://sailsjs.com/config/bootstrap
  */
 
-module.exports.bootstrap = async function() {
+module.exports.bootstrap = async function () {
 
   // By convention, this is a good place to set up fake data during development.
   //
@@ -20,11 +20,10 @@ module.exports.bootstrap = async function() {
   //   return;
   // }
   //
-  // await User.createEach([
-  //   { emailAddress: 'ry@example.com', fullName: 'Ryan Dahl', },
-  //   { emailAddress: 'rachael@example.com', fullName: 'Rachael Shaw', },
-  //   // etc.
-  // ]);
-  // ```
-
+  await SocialNetwork.createEach([
+    { name: 'Twitter' },
+    { name: 'Facebook' },
+    { name: 'Linkedin' },
+    { name: 'Github' },
+  ]);
 };

@@ -49,7 +49,7 @@ module.exports.datastores = {
     *                                                                          *
     ***************************************************************************/
     adapter: 'sails-postgresql',
-    url: process.env.PG_URL,
+    url: 'postgresql://yurii:12345@localhost:5432/pg_database',
   },
 
 
