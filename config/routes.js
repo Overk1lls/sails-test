@@ -21,6 +21,7 @@ module.exports.routes = {
 
   '/': { view: 'pages/homepage' },
   'GET /api/users': 'UsersController.getUsers',
+  'GET /api/users/pdf': 'UsersController.getUsersInPDF',
   'POST /api/users': 'UsersController.createUser',
 
 

@@ -4,6 +4,10 @@
  * @description :: Server-side actions for handling incoming requests.
  * @help        :: See https://sailsjs.com/docs/concepts/actions
  */
+const { createWriteStream } = require('fs');
+const PDFDoc = require('pdfkit');
+
+const pdfFileName = 'usersData.pdf';
 
 module.exports = {
   getUsers: async (req, res) => {
@@ -12,6 +16,31 @@ module.exports = {
     const users = await User.find().limit(limit).skip(skip);
 
     return res.json(users);
+  },
+  getUsersInPDF: async (req, res) => {
+    try {
+      const doc = new PDFDoc({ compress: false });
+
+      const destination = createWriteStream(pdfFileName);
+
+      doc.pipe(destination);
+
+      await User
+        .stream()
+        .meta({ enableExperimentalDeepTargets: true })
+        .populate('links')
+        .eachBatch(async (users) => {
+          doc.list(Object.values(users).map((u) => JSON.stringify(u)), { listType: 'numbered' });
+        });
+
+      doc.end();
+
+      destination.on('finish', () => {
+        res.status(201).download(sails.helpers.getAppRootDir() + '/usersData.pdf');
+      });
+    } catch (error) {
+      res.serverError(error);
+    }
   },
   createUser: async (req, res) => {
     const { firstname, lastname, email, phone, city, address, links } = req.body;

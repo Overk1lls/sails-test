@@ -12,6 +12,7 @@
     "@types/node": "^18.11.15",
     "dotenv": "^16.0.3",
     "grunt": "1.0.4",
+    "pdfkit": "^0.13.0",
     "sails": "^1.5.3",
     "sails-hook-grunt": "^5.0.0",
     "sails-hook-orm": "^4.0.0",

@@ -28,6 +28,7 @@ module.exports = {
     },
     phone: {
       type: 'string',
+      unique: true,
     },
 
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗

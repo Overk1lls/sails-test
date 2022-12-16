@@ -7,6 +7,7 @@
 
 module.exports = {
   tableName: 'links',
+  schema: false,
   attributes: {
 
     //  ╔═╗╦═╗╦╔╦╗╦╔╦╗╦╦  ╦╔═╗╔═╗
@@ -16,6 +17,7 @@ module.exports = {
     url: {
       type: 'string',
       required: true,
+      unique: true,
     },
 
     //  ╔═╗╔╦╗╔╗ ╔═╗╔╦╗╔═╗
@@ -29,7 +31,6 @@ module.exports = {
 
     socialNetwork: {
       model: 'socialnetwork',
-      unique: true,
     },
     user: {
       model: 'user',
