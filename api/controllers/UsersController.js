@@ -14,7 +14,7 @@ module.exports = {
   getUsers: async (req, res) => {
     const { limit, skip } = req.query;
 
-    const users = await User.find().limit(limit).skip(skip);
+    const users = await User.find().limit(limit).skip(skip).populate('links');
 
     return res.json(users);
   },
@@ -68,7 +68,7 @@ module.exports = {
       /**
        * @type {{id: number, url: string, user: number}[]}
        */
-      const createdLinks = await Link.find().populate('socialNetwork');
+      const createdLinks = await Link.find();
       await User.addToCollection(newUser.id, 'links').members(createdLinks.map((l) => l.id));
 
       const createdUsers = await User.find().populate('links');

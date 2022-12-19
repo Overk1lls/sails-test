@@ -20,7 +20,7 @@ module.exports = {
     const socialNetworks = await SocialNetwork.find();
     const split = inputs.links.split('\n');
 
-    const linkObjects = split.reduce((prev, cur) => {
+    const linkObjects = split.reduce((prev, cur, i) => {
       if (!sails.helpers.isSocialLink(cur)) {
         return prev;
       }
@@ -29,20 +29,22 @@ module.exports = {
         .split('/')
         .find((url) => sails.helpers.isSocialLink(url))
         ?.toLowerCase()
-        .split('.').at(-2);
+        .split('.')
+        .at(-2);
 
       return [
         ...prev,
         {
-          url: cur,
+          id: i + 1,
+          url: cur.replace('\r', ''),
           user: inputs.userId,
-          social_network: socialNetworks
+          socialNetwork: socialNetworks
             .find((item) => item.name.toLowerCase() === networkName)
             .id,
         }
       ];
     }, []);
-    
+
     return linkObjects;
   }
 };
