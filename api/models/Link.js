@@ -33,7 +33,8 @@ module.exports = {
       model: 'socialnetwork',
     },
     user: {
-      model: 'user',
+      collection: 'user',
+      via: 'links',
     },
   },
 };

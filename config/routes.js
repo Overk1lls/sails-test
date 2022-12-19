@@ -23,6 +23,7 @@ module.exports.routes = {
   'GET /api/users': 'UsersController.getUsers',
   'GET /api/users/pdf': 'UsersController.getUsersInPDF',
   'POST /api/users': 'UsersController.createUser',
+  'GET /api/generate': 'UsersController.generateUsers',
 
 
   /***************************************************************************
