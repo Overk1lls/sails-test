@@ -42,7 +42,7 @@ module.exports = {
       doc.end();
 
       destination.on('finish', () => {
-        res.status(201).download(sails.helpers.getAppRootDir() + '/usersData.pdf');
+        res.status(201).download(sails.helpers.getAppRootDir() + '/' + pdfFileName);
       });
     } catch (error) {
       res.serverError(error);
@@ -103,7 +103,7 @@ module.exports = {
         .splice(0, amount);
 
       const parsedLinks = links.map((l) => JSON.parse(l));
-      const parsedUsers = users.map((l) => JSON.parse(l));
+      const parsedUsers = users.map((u) => JSON.parse(u));
 
       await sails.getDatastore().transaction(async (db) => {
         await User.destroy({}).usingConnection(db);
