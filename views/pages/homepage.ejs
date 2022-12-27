@@ -13,6 +13,10 @@
   .textarea {
     width: 25%;
   }
+
+  .file-input {
+    margin: 15px 0 5px 0;
+  }
 </style>
 
 <div style="text-align: center">
@@ -36,5 +40,9 @@
       </textarea>
     </div>
     <input class="submit" type="submit" value="Submit">
+  </form>
+  <form class="file-input" action="/api/file" method="post" enctype="multipart/form-data">
+    <input type="file" name="video" id="">
+    <input type="submit" value="Submit file">
   </form>
 </div>

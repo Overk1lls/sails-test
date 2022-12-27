@@ -4,8 +4,13 @@
  * @description :: Server-side actions for handling incoming requests.
  * @help        :: See https://sailsjs.com/docs/concepts/actions
  */
+const ffmpegPath = require('@ffmpeg-installer/ffmpeg').path;
+const Ffmpeg = require('fluent-ffmpeg');
+Ffmpeg.setFfmpegPath(ffmpegPath);
 const { createWriteStream, readFileSync } = require('fs');
+const { resolve } = require('path');
 const PDFDoc = require('pdfkit');
+const { Writable } = require('stream');
 const { usersFile, linksFile, defaultNumToGenerate } = require('../helpers/generate-users');
 
 const pdfFileName = 'usersData.pdf';
@@ -117,5 +122,33 @@ module.exports = {
     } catch (error) {
       return res.serverError(error);
     }
-  }
+  },
+  uploadFile: async (req, res) => {
+    try {
+      const destinationPath = resolve(sails.config.appPath, 'assets/videos/result.avi');
+      const output = createWriteStream(destinationPath);
+      const streamReceiver = new Writable({ objectMode: true });
+
+      streamReceiver._write = function (file, enc, cb) {
+        Ffmpeg(file)
+          .aspect('16:9')
+          .size('1280x720')
+          .format('avi')
+          .on('start', () => sails.log.info('Video processing has been started'))
+          .on('end', () => {
+            // TODO: fix the .upload() event handler
+            res.status(201).download(destinationPath);
+            cb();
+          })
+          .on('error', (err) => {
+            return res.serverError(err);
+          })
+          .pipe(output);
+      };
+
+      req.file('video').upload(streamReceiver, { maxBytes: 100 * 1024 * 1024 });
+    } catch (error) {
+      return res.serverError(error);
+    }
+  },
 };

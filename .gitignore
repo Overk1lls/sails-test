@@ -106,6 +106,7 @@ node_modules
 
 .tmp
 usersData.pdf
+assets/videos/**/*
 
 ################################################
 # Miscellaneous
